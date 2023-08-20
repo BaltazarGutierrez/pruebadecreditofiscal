@@ -1,0 +1,11 @@
+{
+  "name": "factura_ejemplo_en_javascript",
+  "version": "1.0.0",
+  "description": "aplicacion que genera un Credito Fiscal simple ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Edwin Baltazar Gutierrez Santos",
+  "license": "ISC"
+}
