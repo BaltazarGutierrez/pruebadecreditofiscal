@@ -15,7 +15,7 @@
         </div>
 
         <ul class="menu-fact">
-            <li>
+            <li class="option-menu-ccf" id="optionMenuCcf">
                 <img src="https://images.freeimages.com/clg/images/23/238085/text-file-icon_f" alt="CCF">
                 <P>Credito Fiscales</P>
             </li>
@@ -29,10 +29,10 @@
             </li>
         </ul>
     </nav>
-    <section class="section-credito-fiscal disable">
+    <section id="sectionCreditoFiscal" class="section-credito-fiscal disable">
         <div class="customer-information-ccf">
-            <ul>
-                <li>
+            <ul id="listInfoClient">
+                <!--<li>
                     <label for="name">Nombre de Cliente</label>
                     <input type="text" id="name" placeholder="Nombre de Completo o Razon Social">
                 </li>
@@ -59,13 +59,16 @@
                 <li>
                     <label for="Comercial-Name">Nombre Comercial</label>
                     <input type="text" id="customer-email" placeholder="Nombre Comercial o Nombre">
-                </li>
+                </li>-->
             </ul>
+        </div>
+        <div id="buttonSave" class="button-save">
+            <button type="button">Guardar</button>
         </div>
     </section>
     
-    <section>
-        <div class="customer-information-ccf disable">
+    <section class="info-create-ccf disable" >
+        <div class="customer-information-ccf">
             <ul>
                 <li>
                     <label for="Cant">Cantidad</label>
@@ -101,8 +104,11 @@
                 </li>
             </ul>
         </div>
-        
+        <div class="button-save">
+            <button type="button">Guardar</button>
+        </div>   
     </section>
+ <Script src="./index.js"></Script>
 
 </body>
 </html>

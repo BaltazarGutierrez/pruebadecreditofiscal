@@ -72,10 +72,10 @@ body {
     width: 32px;
     height: 32px;
 }
-
+/* seccion para recibir informacion*/
 .customer-information-ccf ul li {
     display: grid;
-    grid-template-columns: 150px 400px;
+    grid-template-columns: 160px 400px;
     gap: 10px; 
 }
 .customer-information-ccf ul li input {
@@ -87,6 +87,21 @@ body {
     text-align: left;
     
 }
+
+.button-save {
+    display: grid;
+    justify-items: center;
+    width: 500px;
+}
+.button-save button {
+    font-size: var(--lg);
+    border-radius: 15px;
+    width: 100px;
+    background-color: var(--medBlack);
+}
+
+/**/
+
 @media (max-width: 640px){
     .navbar{
         flex-direction: column;
