@@ -13,6 +13,11 @@
 body {
     background-color: var(--minBlack);
 }
+/* clase para desabilitar*/
+
+.disable {
+    display: none;
+}
 /* navbar */
 
 .navbar {
@@ -68,6 +73,20 @@ body {
     height: 32px;
 }
 
+.customer-information-ccf ul li {
+    display: grid;
+    grid-template-columns: 150px 400px;
+    gap: 10px; 
+}
+.customer-information-ccf ul li input {
+    width: 100%;
+    padding: 5px;
+    border-radius: 25px;
+}
+.customer-information-ccf ul li label {
+    text-align: left;
+    
+}
 @media (max-width: 640px){
     .navbar{
         flex-direction: column;
