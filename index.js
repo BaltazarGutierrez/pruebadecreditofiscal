@@ -4,9 +4,12 @@ const sectionCreditoFiscal = document.getElementById("sectionCreditoFiscal")
 const listInfoClient = document.getElementById("listInfoClient")
 const customerInformationCcf = document.getElementById("customer-information-ccf");
 const buttonSave = document.getElementById("buttonSave")
-
+const infoCreateCcf= document.getElementById("infoCreateCcf")
+const listProductsCF = document.getElementById("listProductsCF")
+const buttonSaveCFF = document.getElementById("buttonSaveCFF")
 
 let boxInfo = []
+let boxCreditoFiscInfo = []
 
 /*construyendo los objetos para la construccion HTML*/
 
@@ -19,7 +22,17 @@ class Client {
     }
 
 }
-/*informacion de campos basico*/
+
+class InfoCreditoFiscal {
+    constructor(infoNameCff, infoDescriptItem, typeDatoCff, placeholderCcf){
+        this.infoNameCff = infoNameCff,
+        this.infoDescriptItem = infoDescriptItem,
+        this.typeDatoCff = typeDatoCff,
+        this.placeholderCcf = placeholderCcf
+    }
+}
+
+/*prime captura de datos de informacion de cliente*/ 
 let boxName = new Client("name","Nombre de cliente:", "text", "Nombre o Razon Social");
 let boxNit = new Client("infoNIT","Documento de Identidad:", "text", "NIT o DUI");
 let boxNrc = new Client("infoNRC","Numero de IVA:", "text", "Numero de Registo de Contribuyente");
@@ -28,24 +41,21 @@ let boxAddressInfo = new Client("addressInfo","Direccion:", "text", "Departament
 let boxCustomerEmail = new Client("customerEmail","Correo Electronico:", "text", "ejemplo@extencion.com");
 let boxComercialName = new Client("comercialName","Nombre Comercial:", "text", "Nombre comercial o nombre");
 boxInfo.push(boxName, boxNit, boxNrc, boxAddressInfo, boxEconomicActivity, boxCustomerEmail, boxComercialName)
+/* captura de datos para productos*/
 
-let inputName
-let inputInfoNIT
-let inputInfoNRC
-let inputEconomicActivity
-let inputAddressInfo
-let inputCustomerEmail
-let inputComercialName
-
-let saveName 
-let saveInfoNIT 
-let saveInfoNRC 
-let saveEconomicActivity 
-let saveAddressInfo 
-let saveCustomerEmail 
-let saveComercialName 
+let boxCant = new InfoCreditoFiscal ("CantProduc", "Cantidad de Producto", "number", "Ingrese la Cantidad de Productos");
+let boxDescriptSvcProduct = new InfoCreditoFiscal ("DescriptSvcProduct", "Description de Producto", "text", "Descripcion de servicio");
+let boxUnitValue = new InfoCreditoFiscal ("UnitValue", "Precio Unitario", "number", "$ 0.00");
+let boxDiscountValue = new InfoCreditoFiscal ("DiscountValue", "Descuento", "number", "$ 0.00");
+let boxOtherExpenses = new InfoCreditoFiscal ("OtherExpenses", "Otros Montos No Afectados", "number", "$ 0.00");
+let boxSalesNotSubject = new InfoCreditoFiscal ("SalesNotSubject", "Ventas No Sujetas", "number", "$ 0.00");
+let boxExemptSales = new InfoCreditoFiscal ("ExemptSales", "Ventas Exentas", "number", "$ 0.00");
+let boxTaxedSales = new InfoCreditoFiscal ("TaxedSales", "Ventas Gravadas", "number", "$ 0.00");
+boxCreditoFiscInfo.push(boxCant, boxDescriptSvcProduct, boxUnitValue, boxDiscountValue, boxOtherExpenses, boxSalesNotSubject, boxExemptSales, boxTaxedSales );
 
 /*Funcion que abri y cierra la captra de datos del cliente*/
+
+
 
 optionMenuCcf.addEventListener("click", function toggleOptionMenuCcf(){
     const isClosed = sectionCreditoFiscal.classList.contains('disable');   
@@ -65,37 +75,63 @@ function startApp(){
         const infoBoxClient = 
         `<li>
         <label for=${Client.infoIdName}>${Client.infoDescript}</label>
-        <input type=${Client.typeDato} id="name" placeholder=${Client.placeholder}>
+        <input type=${Client.typeDato} id="${Client.infoIdName}" placeholder=${Client.placeholder}>
         </li>`;
-        console.log(Client);
         listInfoClient.innerHTML += infoBoxClient
 
-        inputName = document.getElementById("name")
-        inputInfoNIT = document.getElementById("infoNIT")
-        inputInfoNRC = document.getElementById("infoNRC")
-        inputEconomicActivity = document.getElementById("economicActivity")
-        inputAddressInfo = document.getElementById("addressInfo")
-        inputCustomerEmail = document.getElementById("customerEmail")
-        inputComercialName = document.getElementById("comercialName")
-
     })
-     
 }
 
 startApp();
 
 
+/* Función para capturar los datos de los inputs */
+function captureData() {
+    const capturedData = {};
 
-buttonSave.addEventListener("click", function saveInforClient(){
-    saveName = inputName.value;
-    saveInfoNIT = inputInfoNIT.value;
-    saveInfoNRC = inputInfoNRC.value;
-    saveEconomicActivity =  inputEconomicActivity.value;
-    saveAddressInfo = inputAddressInfo.value;
-    saveCustomerEmail = inputCustomerEmail.value;
-    saveComercialName =inputComercialName.value;
+    boxInfo.forEach((Client) => {
+        const inputElement = document.getElementById(Client.infoIdName);
+        const inputValue = inputElement.value; 
+        capturedData[Client.infoIdName] = inputValue;  
+    });
 
-    console.log(saveName, saveInfoNIT, saveInfoNRC, saveEconomicActivity, saveAddressInfo, saveCustomerEmail, saveComercialName)
-});
+    console.log(capturedData);
+    sectionCreditoFiscal.classList.add('disable');
+    infoCreateCcf.classList.remove('disable');
+    dataCaptureCff();
 
-//window.addEventListener("load", inicio)
+}
+
+buttonSave.addEventListener("click", captureData);
+
+// aqui toma los valores de la segunda seccion
+
+function dataCaptureCff(){
+    boxCreditoFiscInfo.forEach((InfoCreditoFiscal)=> {
+        const infoBoxProduc = 
+        `<li>
+        <label for=${InfoCreditoFiscal.infoNameCff}>${InfoCreditoFiscal.infoDescriptItem}</label>
+        <input type=${InfoCreditoFiscal.typeDatoCff} id="${InfoCreditoFiscal.infoNameCff}" placeholder=${InfoCreditoFiscal.placeholderCcf}>
+        </li>`;
+        
+        listProductsCF.innerHTML += infoBoxProduc
+
+    })
+    buttonSaveCFF.addEventListener("click", captureDataCreditoF);
+}
+
+function captureDataCreditoF() {
+    const capturedDataCCf = {};
+
+    boxCreditoFiscInfo.forEach((InfoCreditoFiscal) => {
+        const inputElement = document.getElementById(InfoCreditoFiscal.infoNameCff);
+        console.log(InfoCreditoFiscal.infoNameCff);
+        const inputValue = inputElement.value; 
+        capturedDataCCf[InfoCreditoFiscal.infoNameCff] = inputValue;  
+    });
+
+    console.log(capturedDataCCf);
+    infoCreateCcf.classList.add('disable');
+    
+}
+
