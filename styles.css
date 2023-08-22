@@ -4,6 +4,7 @@
     --medBlack: #4F4557;
     --minBlack: #6D5D6E;
     --white: #F4EEE0;
+    --mm: 10px;
     --sm: 14px;
     --md: 16px;
     --lg: 18px;
@@ -100,7 +101,72 @@ body {
     background-color: var(--medBlack);
 }
 
-/**/
+/*credito fiscal*/
+
+.credito-fiscal{
+    background-color: var(--white);
+}
+
+.sect-info-ccf-gener{
+    display: flex;
+    justify-content:space-between;
+    
+}
+.info-ccf-gener {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    align-items: center;
+    border: 3px solid;
+    border-radius: 25px;
+    border-color: blue;
+    font-size: var(--sm);
+    
+}
+
+.ccf-generic-info{
+    display: flex; 
+}
+.ccf-generic-info p{
+    justify-content: center;
+}
+.codig-QR{
+    width: 125px;
+    height: 125px;
+}
+
+.info-left-generic{
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+}
+.info-left-generic li {
+    display: flex;
+    justify-content: center;
+}
+.info-left-generic li p{
+    justify-items: center;
+    margin: 10px;
+}
+/*informacion de receptor*/
+.info-recp-emisor {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.info-emisor{
+    margin: 15px;
+    border: 2px solid;
+    border-color: blue;
+    width: 500px;
+}
+.info-recp{
+    margin: 15px;
+    border: 2px solid;
+    border-color: blue;
+    width: 500px;
+}
 
 @media (max-width: 640px){
     .navbar{

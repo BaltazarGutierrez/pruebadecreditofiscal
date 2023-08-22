@@ -12,8 +12,6 @@ const buttonSaveCFF = document.getElementById("buttonSaveCFF")
 const buttonAddCFF = document.getElementById ("buttonAddCFF");
 
 let listDetailProduct = []
-
-
 let boxInfo = []
 let boxCreditoFiscInfo = []
 let selectTypeVent = []
@@ -143,10 +141,6 @@ function dataCaptureCff(){
         
         listProductsCF.innerHTML += infoBoxProduc
         
-
-
-
-
         checkedOtherExpenses = document.getElementById("OtherExpenses")
         checkedSalesNotSubject = document.getElementById("SalesNotSubject")
         checkedExemptSales = document.getElementById("ExemptSales")
@@ -248,4 +242,44 @@ function sumSales(item){
 }
 
 
+/*crea un archivo JSON*/ 
+/*const fs = require('fs');*/
+/*
+// Objeto para almacenar la información capturada
+const dataToSave = {
+    listDetailProduct: listDetailProduct,
+    boxInfo: boxInfo,
+    boxCreditoFiscInfo: boxCreditoFiscInfo,
+    selectTypeVent: selectTypeVent
+};
 
+// Convertir el objeto a una cadena JSON
+const jsonData = JSON.stringify(dataToSave, null, 2); // El tercer argumento (2) es para la indentación
+
+// Ruta y nombre del archivo JSON
+const rutaArchivoJSON = 'datosCapturados.json';
+
+// Escribir la cadena JSON en el archivo
+fs.writeFile(rutaArchivoJSON, jsonData, (error) => {
+    if (error) {
+        console.error('Error al escribir en el archivo JSON:', error);
+    } else {
+        console.log('Archivo JSON creado exitosamente.');
+    }
+});
+*/
+// Objeto para almacenar la información capturada
+const dataToSave = {
+    listDetailProduct: listDetailProduct,
+    boxInfo: boxInfo,
+    boxCreditoFiscInfo: boxCreditoFiscInfo,
+    selectTypeVent: selectTypeVent
+};
+
+// Convertir el objeto a una cadena JSON
+const jsonData = JSON.stringify(dataToSave);
+
+// Guardar la cadena JSON en el almacenamiento local
+localStorage.setItem('datosCapturados', jsonData);
+
+console.log('Datos capturados guardados en localStorage.');
