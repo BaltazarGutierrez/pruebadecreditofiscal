@@ -75,7 +75,7 @@ body {
 /* seccion para recibir informacion*/
 .customer-information-ccf ul li {
     display: grid;
-    grid-template-columns: 160px 400px;
+    grid-template-columns: 200px 400px;
     gap: 10px; 
 }
 .customer-information-ccf ul li input {
@@ -91,12 +91,12 @@ body {
 .button-save {
     display: grid;
     justify-items: center;
-    width: 500px;
+    width: 800px;
 }
 .button-save button {
     font-size: var(--lg);
     border-radius: 15px;
-    width: 100px;
+    width: 200px;
     background-color: var(--medBlack);
 }
 

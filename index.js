@@ -7,9 +7,14 @@ const buttonSave = document.getElementById("buttonSave")
 const infoCreateCcf= document.getElementById("infoCreateCcf")
 const listProductsCF = document.getElementById("listProductsCF")
 const buttonSaveCFF = document.getElementById("buttonSaveCFF")
+const buttonAddCFF = document.getElementById ("buttonAddCFF");
+
+let listDetailProduct = []
+
 
 let boxInfo = []
 let boxCreditoFiscInfo = []
+let selectTypeVent = []
 
 /*construyendo los objetos para la construccion HTML*/
 
@@ -24,11 +29,12 @@ class Client {
 }
 
 class InfoCreditoFiscal {
-    constructor(infoNameCff, infoDescriptItem, typeDatoCff, placeholderCcf){
+    constructor(infoNameCff, infoDescriptItem, typeDatoCff, placeholderCcf, typeSaleCFF){
         this.infoNameCff = infoNameCff,
         this.infoDescriptItem = infoDescriptItem,
         this.typeDatoCff = typeDatoCff,
-        this.placeholderCcf = placeholderCcf
+        this.placeholderCcf = placeholderCcf,
+        this.typeSaleCFF = typeSaleCFF
     }
 }
 
@@ -47,11 +53,19 @@ let boxCant = new InfoCreditoFiscal ("CantProduc", "Cantidad de Producto", "numb
 let boxDescriptSvcProduct = new InfoCreditoFiscal ("DescriptSvcProduct", "Description de Producto", "text", "Descripcion de servicio");
 let boxUnitValue = new InfoCreditoFiscal ("UnitValue", "Precio Unitario", "number", "$ 0.00");
 let boxDiscountValue = new InfoCreditoFiscal ("DiscountValue", "Descuento", "number", "$ 0.00");
-let boxOtherExpenses = new InfoCreditoFiscal ("OtherExpenses", "Otros Montos No Afectados", "number", "$ 0.00");
-let boxSalesNotSubject = new InfoCreditoFiscal ("SalesNotSubject", "Ventas No Sujetas", "number", "$ 0.00");
-let boxExemptSales = new InfoCreditoFiscal ("ExemptSales", "Ventas Exentas", "number", "$ 0.00");
-let boxTaxedSales = new InfoCreditoFiscal ("TaxedSales", "Ventas Gravadas", "number", "$ 0.00");
-boxCreditoFiscInfo.push(boxCant, boxDescriptSvcProduct, boxUnitValue, boxDiscountValue, boxOtherExpenses, boxSalesNotSubject, boxExemptSales, boxTaxedSales );
+boxCreditoFiscInfo.push(boxCant, boxDescriptSvcProduct, boxUnitValue, boxDiscountValue);
+
+let boxOtherExpenses = new InfoCreditoFiscal ("OtherExpenses", "Otros Montos No Afectados", "radio");
+let boxSalesNotSubject = new InfoCreditoFiscal ("SalesNotSubject", "Ventas No Sujetas", "radio");
+let boxExemptSales = new InfoCreditoFiscal ("ExemptSales", "Ventas Exentas", "radio");
+let boxTaxedSales = new InfoCreditoFiscal ("TaxedSales", "Ventas Gravadas", "radio");
+selectTypeVent.push(boxOtherExpenses, boxSalesNotSubject, boxExemptSales, boxTaxedSales)
+
+let checkedOtherExpenses
+let checkedSalesNotSubject
+let checkedExemptSales
+let checkedTaxedSales
+
 
 /*Funcion que abri y cierra la captra de datos del cliente*/
 
@@ -80,6 +94,7 @@ function startApp(){
         listInfoClient.innerHTML += infoBoxClient
 
     })
+    
 }
 
 startApp();
@@ -111,13 +126,33 @@ function dataCaptureCff(){
         const infoBoxProduc = 
         `<li>
         <label for=${InfoCreditoFiscal.infoNameCff}>${InfoCreditoFiscal.infoDescriptItem}</label>
-        <input type=${InfoCreditoFiscal.typeDatoCff} id="${InfoCreditoFiscal.infoNameCff}" placeholder=${InfoCreditoFiscal.placeholderCcf}>
+        <input type=${InfoCreditoFiscal.typeDatoCff} id="${InfoCreditoFiscal.infoNameCff}" placeholder=${InfoCreditoFiscal.placeholderCcf} $InfoCreditoFiscal.typeDatoCff === "number" ? 'step="0.00" pattern="^\d+(?:\.\d{1,2})?$"' : ''>
         </li>`;
         
         listProductsCF.innerHTML += infoBoxProduc
 
     })
+    selectTypeVent.forEach((InfoCreditoFiscal)=> {
+        const infoBoxProduc = 
+        `<li>
+        <label for=${InfoCreditoFiscal.infoNameCff}>${InfoCreditoFiscal.infoDescriptItem}</label>
+        <input type=${InfoCreditoFiscal.typeDatoCff} name="saleType" id="${InfoCreditoFiscal.infoNameCff}" placeholder=${InfoCreditoFiscal.placeholderCcf} $InfoCreditoFiscal.typeDatoCff === "number" ? 'step="0.00" pattern="^\d+(?:\.\d{1,2})?$"' : ''>
+        </li>`;
+        
+        listProductsCF.innerHTML += infoBoxProduc
+        
+
+
+
+
+        checkedOtherExpenses = document.getElementById("OtherExpenses")
+        checkedSalesNotSubject = document.getElementById("SalesNotSubject")
+        checkedExemptSales = document.getElementById("ExemptSales")
+        checkedTaxedSales = document.getElementById("TaxedSales")
+
+    })
     buttonSaveCFF.addEventListener("click", captureDataCreditoF);
+    buttonAddCFF.addEventListener("click", captureDataAddCreditoF);
 }
 
 function captureDataCreditoF() {
@@ -132,6 +167,46 @@ function captureDataCreditoF() {
 
     console.log(capturedDataCCf);
     infoCreateCcf.classList.add('disable');
+
+    selectSaleOptionsCF();
     
 }
 
+function captureDataAddCreditoF() {
+    const capturedDataCCf = {};
+    boxCreditoFiscInfo.forEach((InfoCreditoFiscal) => {
+        const inputElement = document.getElementById(InfoCreditoFiscal.infoNameCff);
+        console.log(InfoCreditoFiscal.infoNameCff);
+        const inputValue = inputElement.value; 
+        capturedDataCCf[InfoCreditoFiscal.infoNameCff] = inputValue; 
+        
+        if (InfoCreditoFiscal.typeDatoCff === "number") {
+            inputElement.value = "0.00";
+        }
+        if (InfoCreditoFiscal.typeDatoCff === "text") {
+            inputElement.value = " ";
+        }
+    });
+
+    console.log(capturedDataCCf);
+    listDetailProduct.push(capturedDataCCf)
+    console.log(listDetailProduct)
+    selectSaleOptionsCF();
+}
+
+function selectSaleOptionsCF() {
+    if (checkedOtherExpenses.checked) {
+        console.log("funcion de otras ventas gravadas");
+        
+
+    } else if (checkedSalesNotSubject.checked) {
+        console.log("ventas no sujetas");
+
+    } else if (checkedExemptSales.checked) {
+        console.log("ventas exentas");
+
+    } else if (checkedTaxedSales.checked) {
+        console.log("ventas gravadas");
+    }
+     
+}
