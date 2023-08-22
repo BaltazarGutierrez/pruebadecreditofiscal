@@ -7,35 +7,31 @@ TaxedSales
 */ 
 
 
-function salesCalc() {
-    const cantProduct = 15
-    const valueUnit = 5
-    let valueSales = cantProduct * valueUnit;
-    console.log(valueSales)
-    return valueSales;
-}
-salesCalc();
+function salesCalc(sendDatosCFF) {
+    const valueSale = sendDatosCFF
 
-let calcTaxedSales = salesCalc() * 0.13;
-console.log(calcTaxedSales)
-
-
-
-function sumSales(){
-    const valueSale =[
-        {CantProduc: '1', DescriptSvcProduct: 'sistema1', UnitValue: '200.00', DiscountValue: '0.00'},
-        {CantProduc: '2', DescriptSvcProduct: 'base de datos', UnitValue: '800.00', DiscountValue: '0.00'},
-        {CantProduc: '3', DescriptSvcProduct: ' revision de program', UnitValue: '100', DiscountValue: '3.10'}
-    ]
-
-    const cantProducValues = [];
-    const unitValueValues = [];
+    const totalSalesCalc = [];
 
     valueSale.forEach(item => {
-        cantProducValues.push(item.CantProduc);
-        unitValueValues.push(item.UnitValue);
+        const cantProduc = parseFloat(item.CantProduc); //convertir a un numero para operar
+        const unitValue = parseFloat(item.UnitValue);
+        const operation = cantProduc * unitValue
+        totalSalesCalc.push(operation.toFixed(2)); // propieda que agrega dos cero
     });
-
-    console.log(cantProducValues); 
-    console.log(unitValueValues);   
+    
+    console.log(totalSalesCalc); 
+    return totalSalesCalc;
 }
+
+/*suma los array */
+
+function sumSales(item){
+
+    const resutSumAllItem = item.reduce((sum, value) => sum + parseFloat(value), 0);
+    return resutSumAllItem.toFixed(2);
+}
+
+
+/*const sumaSaleItem = salesCalc();
+const sumTotalItem = sumSales(sumaSaleItem)
+console.log(sumTotalItem)*/

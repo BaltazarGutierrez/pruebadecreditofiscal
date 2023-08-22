@@ -1,3 +1,5 @@
+
+
 /*llamando a las variables*/ 
 const optionMenuCcf = document.getElementById("optionMenuCcf");
 const sectionCreditoFiscal = document.getElementById("sectionCreditoFiscal")
@@ -195,18 +197,64 @@ function captureDataAddCreditoF() {
 }
 
 function selectSaleOptionsCF() {
+    
     if (checkedOtherExpenses.checked) {
-        console.log("funcion de otras ventas gravadas");
-        
-
+        const sumsalesCalcOE =  salesCalc (listDetailProduct);
+        const sumTotalItemOE = sumSales(sumsalesCalcOE);
+        console.log("Total sum:", sumTotalItemOE);
+        console.log("funcion de otras no sujetas");
     } else if (checkedSalesNotSubject.checked) {
+        const sumsalesCalcSNS =  salesCalc (listDetailProduct);
+        const sumTotalItemSNS = sumSales(sumsalesCalcSNS);
+        console.log("Total sum:", sumTotalItemSNS);
         console.log("ventas no sujetas");
-
     } else if (checkedExemptSales.checked) {
+        const sumsalesCalcExentS =  salesCalc (listDetailProduct);
+        const sumTotalItemExentS = sumSales(sumsalesCalcExentS);
+        console.log("Total sum:", sumTotalItemExentS);
         console.log("ventas exentas");
-
     } else if (checkedTaxedSales.checked) {
+        const sumsalesCalc =  salesCalc (listDetailProduct);
+        const sumTotalItem = sumSales(sumsalesCalc);
+        console.log("Total sum:", sumTotalItem);
         console.log("ventas gravadas");
     }
      
+}
+
+function salesCalc(sendDatosCFF) {
+    const valueSale = sendDatosCFF
+    const totalSalesCalc = [];
+
+    valueSale.forEach(item => {
+        const cantProduc = parseFloat(item.CantProduc); //convertir a un numero para operar
+        const unitValue = parseFloat(item.UnitValue);
+        const operation = cantProduc * unitValue
+        totalSalesCalc.push(operation.toFixed(2)); // propieda que agrega dos cero
+    });
+    for (let i = 0; i < valueSale.length; i++) {
+        valueSale[i].totalSales = totalSalesCalc[i];
+    }
+    console.log(totalSalesCalc); 
+    return totalSalesCalc;
+}
+
+/*suma los array */
+
+function sumSales(item){
+
+    const resutSumAllItem = item.reduce((sum, value) => sum + parseFloat(value), 0);
+    return resutSumAllItem.toFixed(2);
+}
+
+function sleccValue() {
+    if (checkedOtherExpenses.checked) {
+        console.log("ocvion 1");
+    } else if (checkedSalesNotSubject.checked) {
+        console.log("obcion 2");
+    } else if (checkedExemptSales.checked) {
+        console.log("opcion 3");
+    } else if (checkedTaxedSales.checked) {
+        console.log("opcos 5");
+    }
 }
