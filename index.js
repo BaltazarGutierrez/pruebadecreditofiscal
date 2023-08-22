@@ -247,14 +247,5 @@ function sumSales(item){
     return resutSumAllItem.toFixed(2);
 }
 
-function sleccValue() {
-    if (checkedOtherExpenses.checked) {
-        console.log("ocvion 1");
-    } else if (checkedSalesNotSubject.checked) {
-        console.log("obcion 2");
-    } else if (checkedExemptSales.checked) {
-        console.log("opcion 3");
-    } else if (checkedTaxedSales.checked) {
-        console.log("opcos 5");
-    }
-}
+
+
