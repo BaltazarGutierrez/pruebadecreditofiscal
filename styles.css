@@ -18,6 +18,7 @@ body {
 
 .disable {
     display: none;
+    pointer-events: none;
 }
 /* navbar */
 
@@ -99,6 +100,18 @@ body {
     border-radius: 15px;
     width: 200px;
     background-color: var(--medBlack);
+
+}
+
+#sectionCreditoFiscal input[type="number"]::-webkit-inner-spin-button,
+#sectionCreditoFiscal input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    appearance: none;
+    margin: 0;
+}
+
+#sectionCreditoFiscal input[type="number"] {
+    -moz-appearance: textfield;
 }
 
 /*credito fiscal*/
