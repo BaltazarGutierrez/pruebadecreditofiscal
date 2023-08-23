@@ -1,7 +1,7 @@
 
 /*importa las funciones desde otro archivo para que no sea tan pesado este */
-import {hello, infoListProductCCF} from './functionOperationsCff.js'
-import {paintFactInfoClient, addItemCCF} from './FunctionCreateFact.js'
+import {hello, infoListProductCCF, sumaItem} from './functionOperationsCff.js' //operaciones
+import {paintFactInfoClient, addItemCCF} from './FunctionCreateFact.js' // construcion de tabla de productos
 
 hello()
 /*constantes para escritura de html*/
@@ -78,6 +78,9 @@ let boxSalesNotSubject = new InfoCreditoFiscal ("SalesNotSubject", "Ventas No Su
 let boxExemptSales = new InfoCreditoFiscal ("ExemptSales", "Ventas Exentas", "radio", "saleType");
 let boxTaxedSales = new InfoCreditoFiscal ("TaxedSales", "Ventas Gravadas", "radio", "saleType");
 boxCreditoFiscInfo.push(boxOtherExpenses, boxSalesNotSubject, boxExemptSales, boxTaxedSales)
+
+const totalSumAllItem = {};
+
 
 //funcion para abrir y cerra el meno con la informacion del cliente
 optionMenuCcf.addEventListener("click", function toggleOptionMenuCcf(){
@@ -178,6 +181,8 @@ function captureDataCreditoF() {
     creditoFiscalForm.classList.remove('disable')
     infoBoxRecept.innerHTML = paintFactInfoClient (capturedDataCCfClient);
     addItemCCF(listDetailProductFinal);
+    //totalSumAllItem = sumaItem() // llamando a la funcion para suma y de vuelve un objeto con todos los totales
+    sumaItem(listDetailProductFinal)
 }
 
 // funcion para ver a que tipo de venta se realizo
