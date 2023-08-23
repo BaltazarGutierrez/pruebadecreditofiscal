@@ -34,7 +34,11 @@ class InfoCreditoFiscal {
         this.infoDescriptItem = infoDescriptItem,
         this.typeDatoCff = typeDatoCff,
         this.placeholderCcf = placeholderCcf,
-        this.typeSaleCFF = typeSaleCFF
+        this.typeSaleCFF = typeSaleCFF,
+        this.OtherSales = '0.00',
+        this.SaleNoSujet = '0.00',
+        this.ExtSale = '0.00',
+        this.totalSales = '0.00'
     }
 }
 
@@ -66,6 +70,8 @@ let checkedSalesNotSubject
 let checkedExemptSales
 let checkedTaxedSales
 
+const capturedDataCCfClient = {};
+const capturedDataCCf = {};
 
 /*Funcion que abri y cierra la captra de datos del cliente*/
 
@@ -102,18 +108,18 @@ startApp();
 
 /* Función para capturar los datos de los inputs */
 function captureData() {
-    const capturedData = {};
 
     boxInfo.forEach((Client) => {
         const inputElement = document.getElementById(Client.infoIdName);
         const inputValue = inputElement.value; 
-        capturedData[Client.infoIdName] = inputValue;  
+        capturedDataCCfClient[Client.infoIdName] = inputValue;  
     });
 
-    console.log(capturedData);
+    console.log(capturedDataCCfClient);
     sectionCreditoFiscal.classList.add('disable');
     infoCreateCcf.classList.remove('disable');
     dataCaptureCff();
+    paintFactInfoClient(capturedDataCCfClient);
 
 }
 
@@ -152,16 +158,16 @@ function dataCaptureCff(){
 }
 
 function captureDataCreditoF() {
-    const capturedDataCCf = {};
+    
 
-    boxCreditoFiscInfo.forEach((InfoCreditoFiscal) => {
+    /*boxCreditoFiscInfo.forEach((InfoCreditoFiscal) => {
         const inputElement = document.getElementById(InfoCreditoFiscal.infoNameCff);
         console.log(InfoCreditoFiscal.infoNameCff);
         const inputValue = inputElement.value; 
         capturedDataCCf[InfoCreditoFiscal.infoNameCff] = inputValue;  
-    });
+    });*/
 
-    console.log(capturedDataCCf);
+    console.log();
     infoCreateCcf.classList.add('disable');
 
     selectSaleOptionsCF();
@@ -169,25 +175,42 @@ function captureDataCreditoF() {
 }
 
 function captureDataAddCreditoF() {
-    const capturedDataCCf = {};
+    
     boxCreditoFiscInfo.forEach((InfoCreditoFiscal) => {
         const inputElement = document.getElementById(InfoCreditoFiscal.infoNameCff);
-        console.log(InfoCreditoFiscal.infoNameCff);
-        const inputValue = inputElement.value; 
-        capturedDataCCf[InfoCreditoFiscal.infoNameCff] = inputValue; 
-        
+        const inputValue = inputElement.value;
+
         if (InfoCreditoFiscal.typeDatoCff === "number") {
+            capturedDataCCf[InfoCreditoFiscal.infoNameCff] = inputValue;
             inputElement.value = "0.00";
         }
         if (InfoCreditoFiscal.typeDatoCff === "text") {
+            capturedDataCCf[InfoCreditoFiscal.infoNameCff] = inputValue || " ";
             inputElement.value = " ";
         }
     });
 
+    // Asigna valores según las opciones seleccionadas
+    if (checkedOtherExpenses.checked) {
+        capturedDataCCf.OtherSales = capturedDataCCf.UnitValue;
+    } else if (checkedSalesNotSubject.checked) {
+        capturedDataCCf.SaleNoSujet = capturedDataCCf.UnitValue;
+    } else if (checkedExemptSales.checked) {
+        capturedDataCCf.ExtSale = capturedDataCCf.UnitValue;
+    }
+
+    // Calcula y asigna el total de ventas para cada caso
+    const totalSales = capturedDataCCf.CantProduc * capturedDataCCf.UnitValue;
+    capturedDataCCf.OtherSalesTotal = (parseFloat(capturedDataCCf.OtherSales) * capturedDataCCf.CantProduc).toFixed(2);
+    capturedDataCCf.SaleNoSujetTotal = (parseFloat(capturedDataCCf.SaleNoSujet) * capturedDataCCf.CantProduc).toFixed(2);
+    capturedDataCCf.ExtSaleTotal = (parseFloat(capturedDataCCf.ExtSale) * capturedDataCCf.CantProduc).toFixed(2);
+    capturedDataCCf.totalSales = totalSales.toFixed(2);
+
     console.log(capturedDataCCf);
-    listDetailProduct.push(capturedDataCCf)
-    console.log(listDetailProduct)
+    listDetailProduct.push({ ...capturedDataCCf }); // Guarda una copia de los datos en el array
+    console.log(listDetailProduct);
     selectSaleOptionsCF();
+    addItemCCF();
 }
 
 function selectSaleOptionsCF() {
@@ -242,44 +265,42 @@ function sumSales(item){
 }
 
 
-/*crea un archivo JSON*/ 
-/*const fs = require('fs');*/
-/*
-// Objeto para almacenar la información capturada
-const dataToSave = {
-    listDetailProduct: listDetailProduct,
-    boxInfo: boxInfo,
-    boxCreditoFiscInfo: boxCreditoFiscInfo,
-    selectTypeVent: selectTypeVent
-};
+const infoBoxRecept = document.getElementById("infoRecp")
+function paintFactInfoClient (infoclientcff){
+    const infoclient = infoclientcff;
+    console.log("Esta es la información para construir la caja");
+    console.log(infoclient);
 
-// Convertir el objeto a una cadena JSON
-const jsonData = JSON.stringify(dataToSave, null, 2); // El tercer argumento (2) es para la indentación
+    const infoBox = `
+            <h5>nombre o razon social:</h5> <p>${infoclient.name}</p>
+            <h5>NIT:</h5> <p>${infoclient.infoNIT}</p>
+            <h5>NRC:</h5> <p>${infoclient.infoNRC}</p>
+            <h5>Actividad economica:</h5> <p>${infoclient.economicActivity}</p>
+            <h5>Direccion:</h5> <p>${infoclient.addressInfo}</p>
+            <h5>Correo Electronico:</h5> <p>${infoclient.customerEmail}</p>
+            <h5>nombre Comercial:</h5> <p>${infoclient.comercialName}</p>
+    `;
 
-// Ruta y nombre del archivo JSON
-const rutaArchivoJSON = 'datosCapturados.json';
+    infoBoxRecept.innerHTML = infoBox;
+}
 
-// Escribir la cadena JSON en el archivo
-fs.writeFile(rutaArchivoJSON, jsonData, (error) => {
-    if (error) {
-        console.error('Error al escribir en el archivo JSON:', error);
-    } else {
-        console.log('Archivo JSON creado exitosamente.');
-    }
-});
-*/
-// Objeto para almacenar la información capturada
-const dataToSave = {
-    listDetailProduct: listDetailProduct,
-    boxInfo: boxInfo,
-    boxCreditoFiscInfo: boxCreditoFiscInfo,
-    selectTypeVent: selectTypeVent
-};
+const tableBody = document.querySelector('.fact-body-tproduct');
+function addItemCCF () {
+    tableBody.innerHTML = ''; // Limpiamos el contenido existente de la tabla
+    
+    listDetailProduct.forEach((item, index) => {
+        const newRow = tableBody.insertRow(); // Crea una nueva fila
 
-// Convertir el objeto a una cadena JSON
-const jsonData = JSON.stringify(dataToSave);
+        newRow.insertCell().textContent = index + 1;
+        newRow.insertCell().textContent = parseFloat(item.CantProduc).toFixed(2); // Convertir a número y ajustar formato
+        newRow.insertCell().textContent = item.DescriptSvcProduct; // Convertir a número y ajustar formato
+        newRow.insertCell().textContent = parseFloat(item.UnitValue).toFixed(2); // Convertir a número y ajustar formato
+        newRow.insertCell().textContent = parseFloat(item.DiscountValue).toFixed(2); // Convertir a número y ajustar formato
+        newRow.insertCell().textContent = parseFloat(item.OtherSales).toFixed(2); // Convertir a número y ajustar formato
+        newRow.insertCell().textContent = parseFloat(item.SaleNoSujet).toFixed(2); // Convertir a número y ajustar formato
+        newRow.insertCell().textContent = parseFloat(item.ExtSale).toFixed(2); // Convertir a número y ajustar formato
+        const totalSales = (parseFloat(item.CantProduc) * parseFloat(item.UnitValue)).toFixed(2);
+        newRow.insertCell().textContent = totalSales;
+    });
+}
 
-// Guardar la cadena JSON en el almacenamiento local
-localStorage.setItem('datosCapturados', jsonData);
-
-console.log('Datos capturados guardados en localStorage.');

@@ -159,13 +159,31 @@ body {
     margin: 15px;
     border: 2px solid;
     border-color: blue;
-    width: 500px;
+    width: 700px;
 }
 .info-recp{
     margin: 15px;
     border: 2px solid;
     border-color: blue;
-    width: 500px;
+    width: 700px;
+}
+.info-recp p {
+ margin: 8px;
+}
+.info-recp h5{
+    margin: 8px;
+}
+/*descripcion de productos*/
+.fact-table-products {
+    border-collapse: collapse;
+    width: 100%;
+    border: 2px solid black;
+}
+
+.fact-head-colum-tproduc th, .fact-body-colum-tproduct td{
+    border: 1px solid black;
+    padding: 8px;
+    text-align: left;
 }
 
 @media (max-width: 640px){
