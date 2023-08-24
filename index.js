@@ -7,7 +7,7 @@ hello()
 
 /* para escribir numeros a letras importacion de libreria despues vere porque no me deja importar bien la libreria */
 //import * as numberToWords from './node_modules/number-to-words';
-const fs = require('fs');
+//const fs = require('fs');
 /*constantes para escritura de html*/
 
 let ComprobanteDeCreditoFiscal = {};
