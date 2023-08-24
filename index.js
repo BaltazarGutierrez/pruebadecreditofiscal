@@ -4,6 +4,10 @@ import {hello, infoListProductCCF, sumaItem, calCuTaxes} from './functionOperati
 import {paintFactInfoClient, addItemCCF, tableTotalSum, tableTaxes} from './FunctionCreateFact.js' // construcion de tabla de productos
 
 hello()
+
+/* para escribir numeros a letras importacion de libreria despues vere porque no me deja importar bien la libreria */
+//import * as numberToWords from './node_modules/number-to-words';
+const fs = require('fs');
 /*constantes para escritura de html*/
 
 let ComprobanteDeCreditoFiscal = {};
@@ -197,6 +201,7 @@ function captureDataCreditoF() {
     const resTaxesCFF = document.getElementById("resTaxesCFF")
     resTaxesCFF.innerHTML = tableTaxes(taxesCCF, totalSumAllItem)
     resCCF();
+    //stringTotalSales();
 
 }
 
@@ -224,5 +229,24 @@ function resCCF(){
     ComprobanteDeCreditoFiscal = {...capturedDataCCfClient, ...totalSumAllItem, ...totalSumAllItem, ...taxesCCF}
     ComprobanteDeCreditoFiscal.sumaTotal = totalSumAllItem.sumOtherExpenses + totalSumAllItem.sumSalesNotSubject + totalSumAllItem.sumExemptSales + totalSumAllItem.sumTaxedSales;
     console.log(ComprobanteDeCreditoFiscal)
-    
+}
+/*
+escribe los numeros y enc adenas de texto
+function stringTotalSales() {
+    const stringSumaSale = ComprobanteDeCreditoFiscal.sumaTotal
+
+    const integerPart = Math.floor(stringSumaSale); // Parte entera
+    const decimalPart = stringSumaSale - integerPart; // Parte decimal
+
+    const integerInWords = numberToWords.toWords(integerPart);
+    const decimalInWords = numberToWords.toWords(decimalPart * 100);
+    const resultInWords = `<p> ${integerInWords} punto ${decimalInWords}</p> `;
+    const stringCCF = document.getElementById("string-CCF")
+    stringCCF.innerHTML = resultInWords
+
+} */ 
+
+function createJSONCCF (){
+    const infoJSONCCF = ComprobanteDeCreditoFiscal
+    return infoJSONCCF;
 }
