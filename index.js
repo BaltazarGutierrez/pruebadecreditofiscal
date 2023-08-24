@@ -1,10 +1,12 @@
 
 /*importa las funciones desde otro archivo para que no sea tan pesado este */
-import {hello, infoListProductCCF, sumaItem} from './functionOperationsCff.js' //operaciones
-import {paintFactInfoClient, addItemCCF} from './FunctionCreateFact.js' // construcion de tabla de productos
+import {hello, infoListProductCCF, sumaItem, calCuTaxes} from './functionOperationsCff.js' //operaciones
+import {paintFactInfoClient, addItemCCF, tableTotalSum, tableTaxes} from './FunctionCreateFact.js' // construcion de tabla de productos
 
 hello()
 /*constantes para escritura de html*/
+
+let ComprobanteDeCreditoFiscal = {};
 
 const optionMenuCcf = document.getElementById("optionMenuCcf"); //etiqueta del menu del CCF del navbar para el html
 const listInfoClient = document.getElementById("listInfoClient") // es crear la seccion de la informacion del cliente
@@ -12,6 +14,10 @@ const listProductsCF = document.getElementById("listProductsCF") // es para reci
 
 const creditoFiscalForm = document.getElementById("creditoFiscalForm"); // constante para habilitar ccf
 
+const infoBoxRecept = document.getElementById("infoRecp") // para construccion de emisor
+const tableBody = document.querySelector('.fact-body-tproduct'); // lista de productos
+
+const sectSumTotal = document.getElementById("sectSumTotal") // para la construccion del cuadro de totales
 
 let boxInfo = [] //para la construccion del html info cliente
 const capturedDataCCfClient = {} //guarda la informacion del cliente
@@ -79,8 +85,8 @@ let boxExemptSales = new InfoCreditoFiscal ("ExemptSales", "Ventas Exentas", "ra
 let boxTaxedSales = new InfoCreditoFiscal ("TaxedSales", "Ventas Gravadas", "radio", "saleType");
 boxCreditoFiscInfo.push(boxOtherExpenses, boxSalesNotSubject, boxExemptSales, boxTaxedSales)
 
-const totalSumAllItem = {};
-
+let totalSumAllItem ; // guarda la suma total de los item
+let taxesCCF; // guarda el calculo de los impuesstos 
 
 //funcion para abrir y cerra el meno con la informacion del cliente
 optionMenuCcf.addEventListener("click", function toggleOptionMenuCcf(){
@@ -181,8 +187,17 @@ function captureDataCreditoF() {
     creditoFiscalForm.classList.remove('disable')
     infoBoxRecept.innerHTML = paintFactInfoClient (capturedDataCCfClient);
     addItemCCF(listDetailProductFinal);
-    //totalSumAllItem = sumaItem() // llamando a la funcion para suma y de vuelve un objeto con todos los totales
-    sumaItem(listDetailProductFinal)
+    totalSumAllItem = sumaItem(listDetailProductFinal)
+    console.log("aqui se esta enviando la informacion de las sumas");
+    console.log(totalSumAllItem);
+    sectSumTotal.innerHTML = tableTotalSum (totalSumAllItem); //pinta el cuado de total
+    taxesCCF = calCuTaxes (totalSumAllItem); // guardar el calculo de los impuestos
+    console.log(taxesCCF)
+
+    const resTaxesCFF = document.getElementById("resTaxesCFF")
+    resTaxesCFF.innerHTML = tableTaxes(taxesCCF, totalSumAllItem)
+    resCCF();
+
 }
 
 // funcion para ver a que tipo de venta se realizo
@@ -204,6 +219,10 @@ function slectTypeSale() {
 
 }
 
-const infoBoxRecept = document.getElementById("infoRecp") // para construccion de emisor
-const tableBody = document.querySelector('.fact-body-tproduct'); // lista de productos
-
+function resCCF(){
+    console.log("Informacion del ccf")
+    ComprobanteDeCreditoFiscal = {...capturedDataCCfClient, ...totalSumAllItem, ...totalSumAllItem, ...taxesCCF}
+    ComprobanteDeCreditoFiscal.sumaTotal = totalSumAllItem.sumOtherExpenses + totalSumAllItem.sumSalesNotSubject + totalSumAllItem.sumExemptSales + totalSumAllItem.sumTaxedSales;
+    console.log(ComprobanteDeCreditoFiscal)
+    
+}

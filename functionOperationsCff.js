@@ -49,23 +49,47 @@ export function infoListProductCCF(infoListProductCCF){
       return listPrduc;
 }
 
-
+// funcion para srealizar la suma de las columnas segun el tipo de venta realizado
 export function sumaItem (listDetailProduct){
 
-    let itemSumaAll = {
-        sumOtherExpenses: 0.00,
-        sumSalesNotSubject: 0.00,
-        sumExemptSales: 0.00,
-        sumTaxeSales: 0.00
-    };
+        let sumaAll = {
+            sumOtherExpenses: 0.00,
+            sumSalesNotSubject: 0.00,
+            sumExemptSales: 0.00,
+            sumTaxedSales: 0.00,
+        }
     
-    listDetailProduct.forEach((item) => {
-        itemSumaAll.sumOtherExpenses += parseFloat(item.OtherExpenses);
-        itemSumaAll.sumSalesNotSubject += parseFloat(item.SalesNotSubject);
-        itemSumaAll.sumExemptSales += parseFloat(item.ExemptSales);
-        itemSumaAll.sumTaxeSales += parseFloat(item.TaxedSales);
-    })
 
-    console.log (itemSumaAll);
-    return itemSumaAll
+    listDetailProduct.forEach((item) => {
+        sumaAll.sumOtherExpenses += parseFloat(item.OtherExpenses);
+        sumaAll.sumSalesNotSubject += parseFloat(item.SalesNotSubject);
+        sumaAll.sumExemptSales += parseFloat(item.ExemptSales);
+        sumaAll.sumTaxedSales += parseFloat(item.TaxedSales);
+    });
+    return sumaAll;
 }
+
+export function calCuTaxes(totalSumAllItem){
+     let taxes = {
+        Iva: 0.00,
+        retenIva : 0.00,
+        rentaISR: 0.00
+     }
+    
+    console.log("numdo 4")
+    const tSumAllItem = totalSumAllItem
+    console.log(tSumAllItem);
+    taxes.Iva = tSumAllItem.sumTaxedSales * 0.13
+
+    taxes.rentaISR = tSumAllItem.sumTaxedSales * 0.10
+
+     if (tSumAllItem.sumTaxedSales > 100){
+        taxes.retenIva = tSumAllItem.sumTaxedSales*0.01
+     }
+    
+
+     console.log(taxes);
+     console.log("saliendo de la funcion de impuestos ");
+    return taxes;
+}
+

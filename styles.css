@@ -198,6 +198,34 @@ body {
     padding: 8px;
     text-align: left;
 }
+/*seccion de totales*/
+.sect-sum-total {
+    display: flex;
+    flex-direction: row-reverse;
+    border-collapse: collapse;
+    width: 100%;
+}
+.sect-sum-total th, .sect-sum-total td{
+    border: 1px solid black;
+    padding: 8px;
+    text-align: left;
+    border-collapse: collapse;
+    
+}
+/*operaciones de calculo de impesto*/
+.section-clacuc-impuest {
+    display: flex;
+    margin: 10px;
+    flex-direction: row-reverse;
+    border-collapse: collapse;
+}
+
+.section-clacuc-impuest td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: left;
+}
+
 
 @media (max-width: 640px){
     .navbar{

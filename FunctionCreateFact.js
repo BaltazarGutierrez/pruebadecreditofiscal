@@ -40,3 +40,80 @@ export function addItemCCF (listtProduct) {
     
     return listDetailProduct;
 }
+ /*construcion de la tabla de totales*/
+
+
+ export function tableTotalSum (totalSumAllItem){
+    const sumAllItem = totalSumAllItem
+    console.log(sumAllItem)
+    const tableSuma = `
+    <table>
+                    <thead>
+                        <th></th>
+                        <th>Otros Montos NO Afectados</th>
+                        <th>Ventas No sujetas</th>
+                        <th>Ventas Exentas</th>
+                        <th>Ventas Gravadas</th>
+                    </thead>
+                    <tbody>
+                        <td>Sumas Totales</td>
+                        <td>$ ${sumAllItem.sumOtherExpenses} </td>
+                        <td>$ ${sumAllItem.sumSalesNotSubject} </td>
+                        <td>$ ${sumAllItem.sumExemptSales} </td>
+                        <td>$ ${sumAllItem.sumTaxedSales} </td>
+                    </tbody>
+                </table>
+    `
+
+    return tableSuma;
+ }
+ 
+
+
+ export function tableTaxes (taxesItem, totalSumAllItem) {
+    const sumAllItem = totalSumAllItem
+    const taxes = taxesItem
+    const Sumtotal = sumAllItem.sumOtherExpenses + sumAllItem.sumSalesNotSubject + sumAllItem.sumExemptSales + sumAllItem.sumTaxedSales;
+    
+    let subTotalCFF =  Sumtotal +taxes.Iva
+
+
+    let totalSumasCCF = subTotalCFF + taxes.retenIva + taxes.rentaISR
+
+    function formatValue(value) {
+        return parseFloat(value).toFixed(2);
+    }
+
+    const tableTaxes = `
+        <tr>
+            <td>Suma Total de Operaciones</td>
+            <td>$ ${formatValue(Sumtotal)}</td>
+        </tr>
+        <tr>
+            <td>IVA 13%</td>
+            <td>$ ${formatValue(taxes.Iva)}</td>
+        </tr>
+        <tr>
+            <td>Sub total</td>
+            <td>$ ${formatValue(subTotalCFF)}</td>
+        </tr>
+        <tr>
+            <td>IVA Percibido</td>
+            <td>$ ${formatValue(0)}</td>
+        </tr>
+        <tr>
+            <td>IVA Retenido</td>
+            <td>$ ${formatValue(taxes.rentaISR)}</td>
+        </tr>
+        <tr>
+            <td>Retencion de Renta</td>
+            <td>$ ${formatValue(taxes.retenIva)}</td>
+        </tr>
+        <tr>
+            <td>Total a Pagar</td>
+            <td>$ ${formatValue(totalSumasCCF)}</td>
+        </tr>
+    
+    `
+    return tableTaxes
+ }
